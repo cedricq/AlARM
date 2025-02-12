@@ -70,5 +70,40 @@ void AlARM_Manager::reset()
     highs.clear();
 }
 
+
+void AlARM_Manager::print_all_alarms(std::vector<std::unique_ptr<Alarm>>& vec)
+{
+    {
+        for (auto& alm : vec)
+        {
+            alm->print();
+        }
+    }
+}
+void AlARM_Manager::print_all_alarms()
+{
+    std::cout<<"*** ALL alarms : " <<std::endl;
+    print_all_alarms(lows);
+    print_all_alarms(meds);
+    print_all_alarms(highs);
+}
+
+
+void AlARM_Manager::print_active_alarms(std::vector<std::unique_ptr<Alarm>>& vec)
+{
+    {
+        for (auto& alm : vec)
+        {
+            if (alm->state == ACTIVE ) alm->print();
+        }
+    }
+}
+void AlARM_Manager::print_active_alarms()
+{
+    std::cout<<"*** ACTIVE alarms : " <<std::endl;
+    print_active_alarms(lows);
+    print_active_alarms(meds);
+    print_active_alarms(highs);
+}
 }
 

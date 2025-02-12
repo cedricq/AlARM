@@ -41,7 +41,18 @@ struct Alarm
     std::function<bool()> triggerOFF;
 
     void print() {
-        std::cout<<alarmId.name.c_str() <<" - " <<alarmId.description.c_str() <<" - Prio " <<alarmId.priority <<"-" <<alarmId.subPriority <<std::endl;
+        char * state_str = nullptr;
+        char active[] = "ACTVE";
+        char inactive[] = "INACTVE";
+        (state == ACTIVE) ? state_str = active : state_str = inactive;
+
+        char * prio_str = nullptr;
+        char low[] = "LOW";
+        char medium[] = "MEDIUM";
+        char high[] = "HIGH";
+        (alarmId.priority == Low) ? prio_str = low : (alarmId.priority == Medium) ? prio_str = medium : prio_str = high;
+
+        std::cout<<alarmId.name.c_str() <<" - " <<alarmId.description.c_str() <<" - " <<state_str <<" - " <<prio_str <<"-" <<alarmId.subPriority <<std::endl;
     }
 
     Alarm& operator=(const Alarm& other) {
@@ -68,9 +79,15 @@ public:
 
     void reset();
 
+    void print_all_alarms();
+    void print_active_alarms();
+
 private:
     AlARM_Manager() {};
+
     Alarm& IsTriggered(std::vector<std::unique_ptr<Alarm>>& vec);
+    void print_all_alarms(std::vector<std::unique_ptr<Alarm>>& vec);
+    void print_active_alarms(std::vector<std::unique_ptr<Alarm>>& vec);
 
     std::vector<std::unique_ptr<Alarm>> lows;
     std::vector<std::unique_ptr<Alarm>> meds;

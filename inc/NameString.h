@@ -6,7 +6,6 @@
 #include <string>
 #include <cstring>
 
-using char_t = unsigned char;
 using bool_t = bool;
 
 namespace core
@@ -20,7 +19,7 @@ namespace core
         constexpr NameString(NameString const& other) = default;
         constexpr NameString& operator=(NameString const& other) = default;
 
-        NameString(char_t const* str)
+        NameString(char const* str)
         {
             std::fill(data_, data_+LENGTH, 0);
             std::size_t const size = strnlen(str, LENGTH-1);
@@ -35,7 +34,7 @@ namespace core
         }
 
         NameString& operator=(std::string& str) { *this = NameString(str); return *this; }
-        NameString& operator=(char_t const* str)      { *this = NameString(str); return *this; }
+        NameString& operator=(char const* str)      { *this = NameString(str); return *this; }
         ~NameString() = default;
 
         std::string str() const
@@ -45,11 +44,11 @@ namespace core
             str.insert(str.begin(), data_, data_ + size);
             return str;
         }
-        char_t const* c_str() const { return data_; }
-        char_t* data()              { return data_; }
-        char_t const* data() const  { return data_; }
+        char const* c_str() const { return data_; }
+        char* data()              { return data_; }
+        char const* data() const  { return data_; }
 
-        char_t const& operator[](int index) const   { return data_[index]; }
+        char const& operator[](int index) const   { return data_[index]; }
 
         char data_[LENGTH]{};
     };
