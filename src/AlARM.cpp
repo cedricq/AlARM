@@ -1,6 +1,6 @@
 #include "AlARM.h"
 
-namespace alarm
+namespace AlARM
 {
 
 static AlARM_Manager& AlARM_Manager::GetInstance()

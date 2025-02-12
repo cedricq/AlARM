@@ -4,7 +4,7 @@
 
 #include <iostream>
 
-using namespace alarm;
+using namespace AlARM;
 
 
 MAKE_ALARM(alm1, "alarm_1", Low, 1, []()->bool_t {std::cout <<"ON" <<std::endl; return true;}, []()->bool_t {std::cout <<"OFF" <<std::endl; return false; });

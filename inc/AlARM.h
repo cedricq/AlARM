@@ -5,7 +5,7 @@
 
 #include "NameString.h"
 
-namespace alarm
+namespace AlARM
 {
 #define MAKE_ALARM(name, name_str, prio, subprio, triggerON, triggerOFF)  Alarm const name { { name_str }, prio, subprio, triggerON, triggerOFF}
 
