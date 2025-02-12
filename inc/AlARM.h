@@ -5,7 +5,7 @@
 
 #include "NameString.h"
 
-namespace AlARM
+namespace alarm
 {
 #define MAKE_ALARM(name, name_str, prio, subprio, triggerON, triggerOFF)  Alarm const name { { name_str }, prio, subprio, triggerON, triggerOFF}
 
@@ -38,9 +38,11 @@ struct Alarm
 class AlARM_Manager
 {
 public:
-	AlARM_Manager() {};
-    virtual ~AlARM_Manager();
+	static AlARM_Manager& GetInstance();
+    virtual ~AlARM_Manager() {};
 
+private:
+    AlARM_Manager() {};
 };
 
 

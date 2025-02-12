@@ -20,6 +20,6 @@ include(CTest)
 
 include_directories("inc")
 
-add_executable (alarm_test src/AlARM.cpp test/AlARM_t.cpp)
+add_executable (alarm_test src/AlARM.cpp src/NameString.cpp test/AlARM_t.cpp)
 target_link_libraries(alarm_test gtest_main)
 add_test(alarm_test alarm_test)
