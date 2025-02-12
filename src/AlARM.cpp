@@ -9,9 +9,9 @@ static AlARM_Manager& AlARM_Manager::GetInstance()
     return alm_mgr;
 }
 
-void AlARM_Manager::add(Alarm const& alm)
+void AlARM_Manager::add(Alarm& alm)
 {
-    switch (alm.priority)
+    switch (alm.alarmId.priority)
     {
     case Low:
         lows.push_back(std::make_unique<Alarm>(alm));
@@ -27,38 +27,41 @@ void AlARM_Manager::add(Alarm const& alm)
 }
 
 
-Alarm const& AlARM_Manager::IsTriggered(std::vector<std::unique_ptr<Alarm>>& vec)
+Alarm& AlARM_Manager::IsTriggered(std::vector<std::unique_ptr<Alarm>>& vec)
 {
     Alarm* alarm_on = nullptr;
     int subprio = INT16_MAX;
 
     for (auto& alm : vec)
     {
-        if (alm->triggerON() && alm->subPriority < subprio)
+        if ( alm->triggerON() ) alm->state = ACTIVE;
+        else if ( alm->triggerOFF() ) alm->state = INACTIVE;
+
+        if ( alm->state == ACTIVE && alm->alarmId.subPriority < subprio )
         {
-            subprio = alm->subPriority;
+            subprio = alm->alarmId.subPriority;
             alarm_on = alm.get();
         }
     }
 
     if (alarm_on) return *alarm_on;
+
+    static Alarm NO_ALARM = {{"None", "No alarm", None, 0}, INACTIVE, NULL, NULL };
     return NO_ALARM;
 }
 
 
-Alarm const& AlARM_Manager::IsTriggered()
+Alarm& AlARM_Manager::IsTriggered()
 {
-    Alarm const& alarm_on_high = IsTriggered(highs);
-    if (alarm_on_high.priority != None) return alarm_on_high ;
+    Alarm& alarm_on_high = IsTriggered(highs);
+    if (alarm_on_high.alarmId.priority != None) return alarm_on_high ;
 
-    Alarm const& alarm_on_med  = IsTriggered(meds);
-    if (alarm_on_med.priority != None) return alarm_on_med ;
+    Alarm& alarm_on_med  = IsTriggered(meds);
+    if (alarm_on_med.alarmId.priority != None) return alarm_on_med ;
 
-    Alarm const& alarm_on_low  = IsTriggered(lows);
-    if (alarm_on_low.priority != None) return alarm_on_low ;
-
-    return NO_ALARM;
+    return IsTriggered(lows);
 }
+
 
 void AlARM_Manager::reset()
 {

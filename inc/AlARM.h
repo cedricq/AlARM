@@ -11,13 +11,16 @@
 namespace AlARM
 {
 enum Priority { High = 1, Medium, Low, None };
+enum State { INACTIVE = 1, ACTIVE };
 
-#define MAKE_ALARM(name, name_str, desc_str, prio, subprio, triggerON, triggerOFF)  Alarm const name { { name_str, desc_str }, prio, subprio, triggerON, triggerOFF}
+#define MAKE_ALARM(name, name_str, desc_str, prio, subprio, state, triggerON, triggerOFF)  Alarm name { { name_str, desc_str, prio, subprio }, state, triggerON, triggerOFF}
 
 struct AlarmId
 {
     core::NameString name;
     core::NameString description;
+    Priority priority;
+    int subPriority;
 
     bool operator==(AlarmId const& other) const
     {
@@ -32,18 +35,23 @@ struct AlarmId
 
 struct Alarm
 {
-    AlarmId alarmId;
-    Priority priority;
-    int subPriority;
+    AlarmId const alarmId;
+    State state;
     std::function<bool()> triggerON;
     std::function<bool()> triggerOFF;
 
     void print() {
-        std::cout<<alarmId.name.c_str() <<" - " <<alarmId.description.c_str() <<" - Prio " <<priority <<"-" <<subPriority <<std::endl;
+        std::cout<<alarmId.name.c_str() <<" - " <<alarmId.description.c_str() <<" - Prio " <<alarmId.priority <<"-" <<alarmId.subPriority <<std::endl;
+    }
+
+    Alarm& operator=(const Alarm& other) {
+        if (this != &other) {
+            alarmId = other.alarmId;
+            state = other.state;
+        }
+        return *this;
     }
 };
-
-Alarm const NO_ALARM {{"None", "No alarm"}, None, 0, NULL, NULL };
 
 class AlARM_Manager
 {
@@ -51,8 +59,8 @@ public:
     static AlARM_Manager& GetInstance();
     virtual ~AlARM_Manager() {};
 
-    void add(Alarm const& alm);
-    Alarm const& IsTriggered();
+    void add(Alarm& alm);
+    Alarm& IsTriggered();
 
     int getLengthLows() { return lows.size(); };
     int getLengthMeds() { return meds.size(); };
@@ -62,7 +70,7 @@ public:
 
 private:
     AlARM_Manager() {};
-    Alarm const& IsTriggered(std::vector<std::unique_ptr<Alarm>>& vec);
+    Alarm& IsTriggered(std::vector<std::unique_ptr<Alarm>>& vec);
 
     std::vector<std::unique_ptr<Alarm>> lows;
     std::vector<std::unique_ptr<Alarm>> meds;
