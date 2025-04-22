@@ -71,7 +71,7 @@ public:
     virtual ~AlARM_Manager() {};
 
     void add(Alarm& alm);
-    Alarm& IsTriggered();
+    Alarm const& IsTriggered();
 
     int getLengthLows() { return lows.size(); };
     int getLengthMeds() { return meds.size(); };
@@ -85,7 +85,7 @@ public:
 private:
     AlARM_Manager() {};
 
-    Alarm& IsTriggered(std::vector<std::unique_ptr<Alarm>>& vec);
+    Alarm const& IsTriggered(std::vector<std::unique_ptr<Alarm>>& vec);
     void print_all_alarms(std::vector<std::unique_ptr<Alarm>>& vec);
     void print_active_alarms(std::vector<std::unique_ptr<Alarm>>& vec);
 

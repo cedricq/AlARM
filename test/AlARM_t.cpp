@@ -87,6 +87,18 @@ TEST(AlARM, overall_high)
     alm_mgr.reset();
 }
 
+TEST(AlARM, no_alarm)
+{
+    AlARM_Manager& alm_mgr = AlARM_Manager::GetInstance();
+    alarm_on = alm_mgr.IsTriggered();
+
+    Alarm NO_ALARM = {{"None", "No alarm", None, 0}, INACTIVE, NULL, NULL };
+    ASSERT_EQ(None, alarm_on.alarmId.priority);
+    ASSERT_STREQ("None", alarm_on.alarmId.name.c_str());
+    ASSERT_STREQ("No alarm", alarm_on.alarmId.description.c_str());
+    alm_mgr.reset();
+}
+
 TEST(AlARM, activation)
 {
     AlARM_Manager& alm_mgr = AlARM_Manager::GetInstance();

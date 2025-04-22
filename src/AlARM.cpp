@@ -27,7 +27,7 @@ void AlARM_Manager::add(Alarm& alm)
 }
 
 
-Alarm& AlARM_Manager::IsTriggered(std::vector<std::unique_ptr<Alarm>>& vec)
+Alarm const& AlARM_Manager::IsTriggered(std::vector<std::unique_ptr<Alarm>>& vec)
 {
     Alarm* alarm_on = nullptr;
     int subprio = INT16_MAX;
@@ -51,12 +51,12 @@ Alarm& AlARM_Manager::IsTriggered(std::vector<std::unique_ptr<Alarm>>& vec)
 }
 
 
-Alarm& AlARM_Manager::IsTriggered()
+Alarm const& AlARM_Manager::IsTriggered()
 {
-    Alarm& alarm_on_high = IsTriggered(highs);
+    Alarm const& alarm_on_high = IsTriggered(highs);
     if (alarm_on_high.alarmId.priority != None) return alarm_on_high ;
 
-    Alarm& alarm_on_med  = IsTriggered(meds);
+    Alarm const& alarm_on_med  = IsTriggered(meds);
     if (alarm_on_med.alarmId.priority != None) return alarm_on_med ;
 
     return IsTriggered(lows);
