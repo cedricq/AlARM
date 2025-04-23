@@ -112,13 +112,11 @@ TEST(AlARM, activation)
 
     const Alarm alm = alm_mgr.IsTriggered();
     alm_mgr.print_all_alarms();
-    std::cout<<" Current => "; alm.print();
+    std::cout<<"Current => "; alm.print();
 
     alarm_test_on = false;
     alarm_test_off = false;
     const Alarm alarm1 = alm_mgr.IsTriggered();
-    alm_mgr.print_active_alarms();
-    std::cout<<" Current => "; alarm1.print();
     ASSERT_EQ(High, alarm1.alarmId.priority);
     ASSERT_STREQ("alarm_3", alarm1.alarmId.name.c_str());
     ASSERT_STREQ("Run !", alarm1.alarmId.description.c_str());
@@ -126,8 +124,6 @@ TEST(AlARM, activation)
     alarm_test_on = true;
     alarm_test_off = false;
     const Alarm alarm2 = alm_mgr.IsTriggered();
-    alm_mgr.print_active_alarms();
-    std::cout<<" Current => "; alarm2.print();
     ASSERT_EQ(High, alarm2.alarmId.priority);
     ASSERT_STREQ("alarm_test", alarm2.alarmId.name.c_str());
     ASSERT_STREQ("Just for test", alarm2.alarmId.description.c_str());
@@ -135,8 +131,6 @@ TEST(AlARM, activation)
     alarm_test_on = true;
     alarm_test_off = true;
     const Alarm alarm3 = alm_mgr.IsTriggered();
-    alm_mgr.print_active_alarms();
-    std::cout<<" Current => "; alarm3.print();
     ASSERT_EQ(High, alarm3.alarmId.priority);
     ASSERT_STREQ("alarm_test", alarm3.alarmId.name.c_str());
     ASSERT_STREQ("Just for test", alarm3.alarmId.description.c_str());
@@ -144,8 +138,6 @@ TEST(AlARM, activation)
     alarm_test_on = false;
     alarm_test_off = false;
     const Alarm alarm4 = alm_mgr.IsTriggered();
-    alm_mgr.print_active_alarms();
-    std::cout<<" Current => "; alarm4.print();
     ASSERT_EQ(High, alarm4.alarmId.priority);
     ASSERT_STREQ("alarm_test", alarm4.alarmId.name.c_str());
     ASSERT_STREQ("Just for test", alarm4.alarmId.description.c_str());
@@ -153,8 +145,6 @@ TEST(AlARM, activation)
     alarm_test_on = false;
     alarm_test_off = true;
     const Alarm alarm5 = alm_mgr.IsTriggered();
-    alm_mgr.print_active_alarms();
-    std::cout<<" Current => "; alarm5.print();
     ASSERT_EQ(High, alarm5.alarmId.priority);
     ASSERT_STREQ("alarm_3", alarm5.alarmId.name.c_str());
     ASSERT_STREQ("Run !", alarm5.alarmId.description.c_str());
