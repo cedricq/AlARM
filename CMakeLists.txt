@@ -1,6 +1,15 @@
 cmake_minimum_required(VERSION 3.14)
 project(alarm_project)
 
+option(CODE_COVERAGE ON)
+
+enable_testing()
+
+#if(CODE_COVERAGE)
+    add_compile_options(--coverage -O0 -g)
+	add_link_options(--coverage)
+#endif()
+
 include(FetchContent)
 FetchContent_Declare(
   googletest

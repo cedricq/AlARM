@@ -82,6 +82,8 @@ TEST(AlARM, overall_high)
     ASSERT_EQ(High, alm.alarmId.priority);
     ASSERT_STREQ("alarm_3", alm.alarmId.name.c_str());
     ASSERT_STREQ("Run !", alm.alarmId.description.c_str());
+
+    alm_mgr.print_all_alarms();
     alm_mgr.reset();
 }
 
