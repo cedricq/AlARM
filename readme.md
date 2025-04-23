@@ -3,6 +3,9 @@
 Ensure you have gcc or any c++ compiler added into your system path. Then, run the following commands:
 
 ```
+export CC=/c/TDM-GCC-64/bin/gcc
+export CXX=/c/TDM-GCC-64/bin/g++
+
 mkdir build
 cd build
 cmake .. -G "MinGW Makefiles"
