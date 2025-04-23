@@ -40,7 +40,7 @@ struct Alarm
     std::function<bool()> triggerON;
     std::function<bool()> triggerOFF;
 
-    void print() {
+    void print() const {
         char * state_str = nullptr;
         char active[] = "ACTVE";
         char inactive[] = "INACTVE";
@@ -55,11 +55,7 @@ struct Alarm
         std::cout<<alarmId.name.c_str() <<" - " <<alarmId.description.c_str() <<" - " <<state_str <<" - " <<prio_str <<"-" <<alarmId.subPriority <<std::endl;
     }
 
-    Alarm& operator=(const Alarm& other) {
-        if (this != &other) {
-            alarmId = other.alarmId;
-            state = other.state;
-        }
+    Alarm const& operator=(const Alarm& other) {
         return *this;
     }
 };

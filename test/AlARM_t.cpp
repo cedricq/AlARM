@@ -26,8 +26,6 @@ TEST(AlARM, creation)
     ASSERT_FALSE(alm1.triggerOFF());
 }
 
-Alarm alarm_on = {{"None", "No alarm", None, 0}, INACTIVE, NULL, NULL };
-
 TEST(AlARM, overall_low)
 {
     AlARM_Manager& alm_mgr = AlARM_Manager::GetInstance();
@@ -37,11 +35,11 @@ TEST(AlARM, overall_low)
     ASSERT_EQ(0, alm_mgr.getLengthMeds());
     ASSERT_EQ(0, alm_mgr.getLengthHighs());
 
-    alarm_on = alm_mgr.IsTriggered();
+    const Alarm alm = alm_mgr.IsTriggered();
 
-    ASSERT_EQ(Low, alarm_on.alarmId.priority);
-    ASSERT_STREQ("alarm_1", alarm_on.alarmId.name.c_str());
-    ASSERT_STREQ("Do nothing", alarm_on.alarmId.description.c_str());
+    ASSERT_EQ(Low, alm.alarmId.priority);
+    ASSERT_STREQ("alarm_1", alm.alarmId.name.c_str());
+    ASSERT_STREQ("Do nothing", alm.alarmId.description.c_str());
 
     alm_mgr.reset();
 }
@@ -58,11 +56,11 @@ TEST(AlARM, overall_med)
     ASSERT_EQ(2, alm_mgr.getLengthMeds());
     ASSERT_EQ(1, alm_mgr.getLengthHighs());
 
-    alarm_on = alm_mgr.IsTriggered();
+    const Alarm alm = alm_mgr.IsTriggered();
 
-    ASSERT_EQ(Medium, alarm_on.alarmId.priority);
-    ASSERT_STREQ("alarm_4", alarm_on.alarmId.name.c_str());
-    ASSERT_STREQ("Walk !", alarm_on.alarmId.description.c_str());
+    ASSERT_EQ(Medium, alm.alarmId.priority);
+    ASSERT_STREQ("alarm_4", alm.alarmId.name.c_str());
+    ASSERT_STREQ("Walk !", alm.alarmId.description.c_str());
     alm_mgr.reset();
 }
 
@@ -79,23 +77,22 @@ TEST(AlARM, overall_high)
     ASSERT_EQ(2, alm_mgr.getLengthMeds());
     ASSERT_EQ(2, alm_mgr.getLengthHighs());
 
-    alarm_on = alm_mgr.IsTriggered();
+    const Alarm alm = alm_mgr.IsTriggered();
 
-    ASSERT_EQ(High, alarm_on.alarmId.priority);
-    ASSERT_STREQ("alarm_3", alarm_on.alarmId.name.c_str());
-    ASSERT_STREQ("Run !", alarm_on.alarmId.description.c_str());
+    ASSERT_EQ(High, alm.alarmId.priority);
+    ASSERT_STREQ("alarm_3", alm.alarmId.name.c_str());
+    ASSERT_STREQ("Run !", alm.alarmId.description.c_str());
     alm_mgr.reset();
 }
 
 TEST(AlARM, no_alarm)
 {
     AlARM_Manager& alm_mgr = AlARM_Manager::GetInstance();
-    alarm_on = alm_mgr.IsTriggered();
-
-    Alarm NO_ALARM = {{"None", "No alarm", None, 0}, INACTIVE, NULL, NULL };
-    ASSERT_EQ(None, alarm_on.alarmId.priority);
-    ASSERT_STREQ("None", alarm_on.alarmId.name.c_str());
-    ASSERT_STREQ("No alarm", alarm_on.alarmId.description.c_str());
+    const Alarm alm = alm_mgr.IsTriggered();
+    const Alarm NO_ALARM = {{"None", "No alarm", None, 0}, INACTIVE, NULL, NULL };
+    ASSERT_EQ(None, alm.alarmId.priority);
+    ASSERT_STREQ("None", alm.alarmId.name.c_str());
+    ASSERT_STREQ("No alarm", alm.alarmId.description.c_str());
     alm_mgr.reset();
 }
 
@@ -113,54 +110,54 @@ TEST(AlARM, activation)
     ASSERT_EQ(2, alm_mgr.getLengthMeds());
     ASSERT_EQ(3, alm_mgr.getLengthHighs());
 
-    alarm_on = alm_mgr.IsTriggered();
+    const Alarm alm = alm_mgr.IsTriggered();
     alm_mgr.print_all_alarms();
-    std::cout<<" Current => "; alarm_on.print();
+    std::cout<<" Current => "; alm.print();
 
     alarm_test_on = false;
     alarm_test_off = false;
-    alarm_on = alm_mgr.IsTriggered();
+    const Alarm alarm1 = alm_mgr.IsTriggered();
     alm_mgr.print_active_alarms();
-    std::cout<<" Current => "; alarm_on.print();
-    ASSERT_EQ(High, alarm_on.alarmId.priority);
-    ASSERT_STREQ("alarm_3", alarm_on.alarmId.name.c_str());
-    ASSERT_STREQ("Run !", alarm_on.alarmId.description.c_str());
+    std::cout<<" Current => "; alarm1.print();
+    ASSERT_EQ(High, alarm1.alarmId.priority);
+    ASSERT_STREQ("alarm_3", alarm1.alarmId.name.c_str());
+    ASSERT_STREQ("Run !", alarm1.alarmId.description.c_str());
 
     alarm_test_on = true;
     alarm_test_off = false;
-    alarm_on = alm_mgr.IsTriggered();
+    const Alarm alarm2 = alm_mgr.IsTriggered();
     alm_mgr.print_active_alarms();
-    std::cout<<" Current => "; alarm_on.print();
-    ASSERT_EQ(High, alarm_on.alarmId.priority);
-    ASSERT_STREQ("alarm_test", alarm_on.alarmId.name.c_str());
-    ASSERT_STREQ("Just for test", alarm_on.alarmId.description.c_str());
+    std::cout<<" Current => "; alarm2.print();
+    ASSERT_EQ(High, alarm2.alarmId.priority);
+    ASSERT_STREQ("alarm_test", alarm2.alarmId.name.c_str());
+    ASSERT_STREQ("Just for test", alarm2.alarmId.description.c_str());
 
     alarm_test_on = true;
     alarm_test_off = true;
-    alarm_on = alm_mgr.IsTriggered();
+    const Alarm alarm3 = alm_mgr.IsTriggered();
     alm_mgr.print_active_alarms();
-    std::cout<<" Current => "; alarm_on.print();
-    ASSERT_EQ(High, alarm_on.alarmId.priority);
-    ASSERT_STREQ("alarm_test", alarm_on.alarmId.name.c_str());
-    ASSERT_STREQ("Just for test", alarm_on.alarmId.description.c_str());
+    std::cout<<" Current => "; alarm3.print();
+    ASSERT_EQ(High, alarm3.alarmId.priority);
+    ASSERT_STREQ("alarm_test", alarm3.alarmId.name.c_str());
+    ASSERT_STREQ("Just for test", alarm3.alarmId.description.c_str());
 
     alarm_test_on = false;
     alarm_test_off = false;
-    alarm_on = alm_mgr.IsTriggered();
+    const Alarm alarm4 = alm_mgr.IsTriggered();
     alm_mgr.print_active_alarms();
-    std::cout<<" Current => "; alarm_on.print();
-    ASSERT_EQ(High, alarm_on.alarmId.priority);
-    ASSERT_STREQ("alarm_test", alarm_on.alarmId.name.c_str());
-    ASSERT_STREQ("Just for test", alarm_on.alarmId.description.c_str());
+    std::cout<<" Current => "; alarm4.print();
+    ASSERT_EQ(High, alarm4.alarmId.priority);
+    ASSERT_STREQ("alarm_test", alarm4.alarmId.name.c_str());
+    ASSERT_STREQ("Just for test", alarm4.alarmId.description.c_str());
 
     alarm_test_on = false;
     alarm_test_off = true;
-    alarm_on = alm_mgr.IsTriggered();
+    const Alarm alarm5 = alm_mgr.IsTriggered();
     alm_mgr.print_active_alarms();
-    std::cout<<" Current => "; alarm_on.print();
-    ASSERT_EQ(High, alarm_on.alarmId.priority);
-    ASSERT_STREQ("alarm_3", alarm_on.alarmId.name.c_str());
-    ASSERT_STREQ("Run !", alarm_on.alarmId.description.c_str());
+    std::cout<<" Current => "; alarm5.print();
+    ASSERT_EQ(High, alarm5.alarmId.priority);
+    ASSERT_STREQ("alarm_3", alarm5.alarmId.name.c_str());
+    ASSERT_STREQ("Run !", alarm5.alarmId.description.c_str());
 
     alm_mgr.reset();
 }

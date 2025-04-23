@@ -10,8 +10,6 @@ FetchContent_Declare(
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
-set(CMAKE_CXX_FLAGS "-fpermissive")
-
 include(CTest)
 
 add_subdirectory(src)
