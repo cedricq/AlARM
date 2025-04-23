@@ -15,5 +15,9 @@ jobs:
       run: cd build/; make
     - name: run
       run: cd build/; ctest -V
+    - name: coverage_tool
+      run: cd build/; VERSION="1.14"; mkdir Iconv; cd Iconv; wget "https://github.com/linux-test-project/lcov/releases/download/v1.14/lcov-$VERSION.tar.gz"; tar -xzf "lcov-$VERSION.tar.gz"; cd "lcov-$VERSION"; sudo make install
     - name: coverage
-      run: cd build/; VERSION="1.14"; mkdir Iconv; cd Iconv; wget "https://github.com/linux-test-project/lcov/releases/download/v1.14/lcov-$VERSION.tar.gz"; tar -xzf "lcov-$VERSION.tar.gz"; cd "lcov-$VERSION"; sudo make install; lcov --directory . --capture --output-file coverage.info --ignore-errors mismatch; lcov --remove coverage.info '/usr/*' '*/test/*' '*/gtest/*' '*/googletest/*' --output-file coverage_filtered.info; genhtml coverage_filtered.info --output-directory coverage_report
+      run: cd build/; lcov --directory . --capture --output-file coverage.info --ignore-errors mismatch; lcov --remove coverage.info '/usr/*' '*/test/*' '*/gtest/*' '*/googletest/*' --output-file coverage_filtered.info; genhtml coverage_filtered.info --output-directory coverage_report
+      
+    
