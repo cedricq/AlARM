@@ -155,3 +155,4 @@ TEST(AlARM, activation)
 
     alm_mgr.reset();
 }
+
