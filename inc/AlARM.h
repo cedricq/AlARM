@@ -21,16 +21,6 @@ struct AlarmId
     core::NameString description;
     Priority priority;
     int subPriority;
-
-    bool operator==(AlarmId const& other) const
-    {
-        return (name == other.name);
-    }
-
-    bool operator!=(AlarmId const& other) const
-    {
-        return not (*this == other);
-    }
 };
 
 struct Alarm
@@ -53,10 +43,6 @@ struct Alarm
         (alarmId.priority == Low) ? prio_str = low : (alarmId.priority == Medium) ? prio_str = medium : prio_str = high;
 
         std::cout<<alarmId.name.c_str() <<" - " <<alarmId.description.c_str() <<" - " <<state_str <<" - " <<prio_str <<"-" <<alarmId.subPriority <<std::endl;
-    }
-
-    Alarm const& operator=(const Alarm& other) {
-        return *this;
     }
 };
 
