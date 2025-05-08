@@ -19,6 +19,7 @@ jobs:
       run: cd build/; ctest -V --output-on-failure
     - name: Generate coverage report
       run: |
+        cd build
         lcov --directory . --capture --output-file coverage.info
         lcov --remove coverage.info '/usr/*' '*/googletest/*' --output-file coverage.info
         lcov --list coverage.info
@@ -26,4 +27,4 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: coverage-report
-        path: coverage.info
+        path: build/coverage.info
