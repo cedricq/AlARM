@@ -41,6 +41,8 @@ TEST(AlARM, overall_low)
     ASSERT_STREQ("alarm_1", alm.alarmId.name.c_str());
     ASSERT_STREQ("Do nothing", alm.alarmId.description.c_str());
 
+    alm_mgr.print_active_alarms();
+
     alm_mgr.reset();
 }
 
