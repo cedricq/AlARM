@@ -16,6 +16,7 @@ ctest
 Or you can run directly from project root directory:
 ```
 cmake -S . -B build
+cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug -DCODE_COVERAGE=ON
 cmake --build build
 
 ```
