@@ -20,7 +20,14 @@ jobs:
     - name: Generate coverage report
       run: |
         cd build; mkdir -p coverage-html;
-        gcovr --root .. --exclude '../test' --exclude '_deps' --html --html-details -o coverage-html/index.html --print-summary
+        gcovr --root .. \
+          --exclude '../test' --exclude '_deps' \
+          --html --html-details -o coverage-html/index.html \
+          --print-summary \
+          --branches \
+          --fail-under-line=100 \
+          --fail-under-function=100 \
+          --fail-under-branch=90
     - name: Upload coverage artifact
       uses: actions/upload-artifact@v4
       with:
