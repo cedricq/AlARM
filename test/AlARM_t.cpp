@@ -12,6 +12,11 @@ MAKE_ALARM(alm3, "alarm_3", "Run !", High, 2, INACTIVE, []()->bool_t {return tru
 MAKE_ALARM(alm4, "alarm_4", "Walk !", Medium, 1, INACTIVE, []()->bool_t {return true;}, []()->bool_t {return false; });
 MAKE_ALARM(alm5, "alarm_5", "Walk !", Medium, 0, INACTIVE, []()->bool_t {return false;}, []()->bool_t {return false; });
 MAKE_ALARM(alm6, "alarm_6", "Run !", High, 1, INACTIVE, []()->bool_t {return false;}, []()->bool_t {return false; });
+MAKE_ALARM(alm7, "alarm_7", "Trigger OFF", Low, 10, ACTIVE, []()->bool_t {return false;}, []()->bool_t {return true; });
+
+MAKE_ALARM(almDefective, "alarm_defective", "Defective alarm !", None, 1, INACTIVE, nullptr, nullptr);
+MAKE_ALARM(almDefective_no_act, "alarm_defective_no_act", "Defective alarm !", None, 1, INACTIVE, nullptr, []()->bool_t {return false; });
+MAKE_ALARM(almDefective_no_deact, "alarm_defective_no_deact", "Defective alarm !", None, 1, ACTIVE, []()->bool_t {return false; }, nullptr);
 
 bool_t alarm_test_on = false;
 bool_t alarm_test_off = false;
@@ -35,15 +40,17 @@ TEST(AlARM, overall_low)
     ASSERT_EQ(0, alm_mgr.getLengthMeds());
     ASSERT_EQ(0, alm_mgr.getLengthHighs());
 
-    const Alarm alm = alm_mgr.IsTriggered();
+    // This is just to test singleton is working fine
+    AlARM_Manager& alm_mgr_bis = AlARM_Manager::GetInstance();
+    const Alarm alm = alm_mgr_bis.IsTriggered();
 
     ASSERT_EQ(Low, alm.alarmId.priority);
     ASSERT_STREQ("alarm_1", alm.alarmId.name.c_str());
     ASSERT_STREQ("Do nothing", alm.alarmId.description.c_str());
 
-    alm_mgr.print_active_alarms();
+    alm_mgr_bis.print_active_alarms();
 
-    alm_mgr.reset();
+    alm_mgr_bis.reset();
 }
 
 TEST(AlARM, overall_med)
@@ -156,3 +163,53 @@ TEST(AlARM, activation)
     alm_mgr.reset();
 }
 
+TEST(AlARM, deactivation)
+{
+    AlARM_Manager& alm_mgr = AlARM_Manager::GetInstance();
+    alm_mgr.add(alm7);
+
+    ASSERT_EQ(1, alm_mgr.getLengthLows());
+    ASSERT_EQ(0, alm_mgr.getLengthMeds());
+    ASSERT_EQ(0, alm_mgr.getLengthHighs());    
+
+    const Alarm alarm = alm_mgr.IsTriggered();
+    ASSERT_EQ(None, alarm.alarmId.priority);
+    ASSERT_STREQ("None", alarm.alarmId.name.c_str());
+    ASSERT_STREQ("No alarm", alarm.alarmId.description.c_str());
+
+    alm_mgr.reset();
+}
+
+TEST(AlARM, defective_alarm)
+{
+    AlARM_Manager& alm_mgr = AlARM_Manager::GetInstance();
+    alm_mgr.add(almDefective);
+
+    // A wrong alarm priority is considered High
+    ASSERT_EQ(0, alm_mgr.getLengthLows());
+    ASSERT_EQ(0, alm_mgr.getLengthMeds());
+    ASSERT_EQ(1, alm_mgr.getLengthHighs());
+
+    alm_mgr.print_active_alarms();
+
+    const Alarm alarm = alm_mgr.IsTriggered();
+    ASSERT_EQ(None, alarm.alarmId.priority);
+    ASSERT_STREQ("None", alarm.alarmId.name.c_str());
+    ASSERT_STREQ("No alarm", alarm.alarmId.description.c_str());
+
+    alm_mgr.reset();
+    alm_mgr.add(almDefective_no_act);
+    const Alarm alarm2 = alm_mgr.IsTriggered();
+    ASSERT_EQ(None, alarm2.alarmId.priority);
+    ASSERT_STREQ("None", alarm2.alarmId.name.c_str());
+    ASSERT_STREQ("No alarm", alarm2.alarmId.description.c_str());
+
+    alm_mgr.reset();
+    alm_mgr.add(almDefective_no_deact);
+    const Alarm alarm3 = alm_mgr.IsTriggered();
+    ASSERT_EQ(None, alarm3.alarmId.priority);
+    ASSERT_STREQ("None", alarm3.alarmId.name.c_str());
+    ASSERT_STREQ("No alarm", alarm3.alarmId.description.c_str());
+
+    alm_mgr.reset();
+}

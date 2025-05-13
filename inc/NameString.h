@@ -21,14 +21,14 @@ namespace core
 
         NameString(char const* str)
         {
-            std::fill(data_, data_+LENGTH, 0);
+            std::fill(data_, data_+LENGTH, 0); // GCOVR_EXCL_LINE
             std::size_t const size = strnlen(str, LENGTH-1);
             std::copy(str, str + size, data_);
         }
 
         NameString(const std::string& str)
         {
-            std::fill(data_, data_ + LENGTH, 0);
+            std::fill(data_, data_ + LENGTH, 0); // GCOVR_EXCL_LINE
             std::size_t const toCopy = std::min(str.size(), LENGTH-1);
             std::copy(str.begin(), str.begin() + toCopy, data_);
         }

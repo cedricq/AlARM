@@ -3,4 +3,6 @@ build
 .project
 .settings/
 .github
+.vscode/
+
 
