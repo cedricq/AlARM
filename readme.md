@@ -1,6 +1,6 @@
 # Build & Run unit tests
 
-Ensure you have gcc or any c++ compiler added into your system path. Then, run the following commands:
+Ensure you have gcc or any c++ compiler added into your system path. Then, run the following commands on Windows for example:
 
 ```
 export CC=/c/TDM-GCC-64/bin/gcc
@@ -11,6 +11,13 @@ cd build
 cmake .. -G "MinGW Makefiles"
 make -j8
 ctest
+```
+
+Or you can run directly from project root directory:
+```
+cmake -S . -B build
+cmake --build build
+
 ```
 
 # IEC 60601-1-8
