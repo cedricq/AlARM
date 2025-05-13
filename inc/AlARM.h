@@ -67,8 +67,7 @@ private:
     AlARM_Manager() {};
 
     Alarm const& IsTriggered(std::vector<std::unique_ptr<Alarm>>& vec);
-    void print_all_alarms(std::vector<std::unique_ptr<Alarm>>& vec);
-    void print_active_alarms(std::vector<std::unique_ptr<Alarm>>& vec);
+    void print_alarms(std::vector<std::unique_ptr<Alarm>>& vec, bool active_only);
 
     std::vector<std::unique_ptr<Alarm>> lows;
     std::vector<std::unique_ptr<Alarm>> meds;

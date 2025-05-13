@@ -84,10 +84,11 @@ void AlARM_Manager::reset()
 }
 
 
-void AlARM_Manager::print_all_alarms(std::vector<std::unique_ptr<Alarm>>& vec)
+void AlARM_Manager::print_alarms(std::vector<std::unique_ptr<Alarm>>& vec, bool active_only)
 {
+    for (auto& alm : vec)
     {
-        for (auto& alm : vec)
+        if (!active_only || alm->state == ACTIVE)
         {
             alm->print(); // GCOVR_EXCL_LINE
         }
@@ -96,31 +97,18 @@ void AlARM_Manager::print_all_alarms(std::vector<std::unique_ptr<Alarm>>& vec)
 
 void AlARM_Manager::print_all_alarms()
 {
-    std::cout<<"*** ALL alarms : " <<std::endl;
-    print_all_alarms(lows);
-    print_all_alarms(meds);
-    print_all_alarms(highs);
-}
-
-void AlARM_Manager::print_active_alarms(std::vector<std::unique_ptr<Alarm>>& vec)
-{
-    {
-        for (auto& alm : vec)
-        {
-            if ( alm->state == ACTIVE ) 
-            {
-                alm->print(); // GCOVR_EXCL_LINE
-            }
-        }
-    }
+    std::cout << "*** ALL alarms : " << std::endl;
+    print_alarms(lows, false);
+    print_alarms(meds, false);
+    print_alarms(highs, false);
 }
 
 void AlARM_Manager::print_active_alarms()
 {
-    std::cout<<"*** ACTIVE alarms : " <<std::endl;
-    print_active_alarms(lows);
-    print_active_alarms(meds);
-    print_active_alarms(highs);
+    std::cout << "*** ACTIVE alarms : " << std::endl;
+    print_alarms(lows, true);
+    print_alarms(meds, true);
+    print_alarms(highs, true);
 }
 
 }
