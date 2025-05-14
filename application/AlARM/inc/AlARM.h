@@ -1,17 +1,18 @@
 #ifndef AlARM_H_
 #define AlARM_H_
 
+#include "NameString.h"
+
 #include <functional>
 #include <memory>
 #include <vector>
-
-#include "NameString.h"
 #include <iostream>
 
 namespace AlARM
 {
-enum Priority { High = 1, Medium=2, Low=3, None=4 };
-enum State { INACTIVE = 1, ACTIVE };
+
+enum class Priority { None = 0, High = 1, Medium = 2, Low = 3 };
+enum State { INACTIVE = 1, ACTIVE = 2 };
 
 #define MAKE_ALARM(name, name_str, desc_str, prio, subprio, state, triggerON, triggerOFF)  Alarm name { { name_str, desc_str, prio, subprio }, state, triggerON, triggerOFF}
 
@@ -40,7 +41,7 @@ struct Alarm
         char low[] = "LOW";
         char medium[] = "MEDIUM";
         char high[] = "HIGH";
-        (alarmId.priority == Low) ? prio_str = low : (alarmId.priority == Medium) ? prio_str = medium : prio_str = high;  // GCOVR_EXCL_LINE
+        (alarmId.priority == Priority::Low) ? prio_str = low : (alarmId.priority == Priority::Medium) ? prio_str = medium : prio_str = high;  // GCOVR_EXCL_LINE
         std::cout<<alarmId.name.c_str() <<" - " <<alarmId.description.c_str() <<" - " <<state_str <<" - " <<prio_str <<"-" <<alarmId.subPriority <<std::endl;  // GCOVR_EXCL_LINE
     }
 };
