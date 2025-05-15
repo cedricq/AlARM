@@ -34,12 +34,13 @@ public:
 
     virtual void stop () = 0 ;
 
+    AlARM::Priority getPrio() { return priotity_; };
+
 protected:
     virtual void playHigh() = 0;
     virtual void playMed()  = 0;
     virtual void playLow()  = 0;
 
-private:
     AlARM::Priority priotity_ { AlARM::Priority::None } ;
 
 };
