@@ -1,16 +1,16 @@
-#ifndef AUDIOTEST_H_
-#define AUDIOTEST_H_
+#ifndef AUDIOFAKE_H_
+#define AUDIOFAKE_H_
 
 #include "AudioI.h"
 
 namespace Audio
 {
 
-class AudioTest : public AudioI
+class AudioFake : public AudioI
 {
 public:
-    AudioTest() {};
-    virtual ~AudioTest() {};
+    AudioFake() {};
+    virtual ~AudioFake() {};
 
     void stop() override;
 

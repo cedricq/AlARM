@@ -1,24 +1,24 @@
-#include "AudioTest.h"
+#include "AudioFake.h"
 #include <iostream>
 
 using namespace Audio;
 
-void AudioTest::playHigh() 
+void AudioFake::playHigh() 
 {
     std::cout<<"AUDIO HIGH" <<std::endl;
 }
 
-void AudioTest::playMed() 
+void AudioFake::playMed() 
 {
     std::cout<<"AUDIO MED" <<std::endl;
 }
 
-void AudioTest::playLow() 
+void AudioFake::playLow() 
 {
     std::cout<<"AUDIO LOW" <<std::endl;
 }
 
-void AudioTest::stop()
+void AudioFake::stop()
 {
     std::cout<<"AUDIO STOP" <<std::endl;
 }

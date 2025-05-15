@@ -1,6 +1,7 @@
 #ifndef AlARM_H_
 #define AlARM_H_
 
+#include "AlARMlib.h"
 #include "NameString.h"
 
 #include <functional>
@@ -10,9 +11,6 @@
 
 namespace AlARM
 {
-
-enum class Priority { None = 0, High = 1, Medium = 2, Low = 3 };
-enum State { INACTIVE = 1, ACTIVE = 2 };
 
 #define MAKE_ALARM(name, name_str, desc_str, prio, subprio, state, triggerON, triggerOFF)  Alarm name { { name_str, desc_str, prio, subprio }, state, triggerON, triggerOFF}
 

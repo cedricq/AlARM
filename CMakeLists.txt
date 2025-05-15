@@ -33,7 +33,7 @@ endif()
 include(CTest)
 
 add_subdirectory(application/AlARM)
-add_subdirectory(application/AudioTest)
+add_subdirectory(application/Audio)
 add_subdirectory(application/NameString)
 add_subdirectory(test)
 
