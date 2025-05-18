@@ -21,14 +21,14 @@ if(CMAKE_BUILD_TYPE STREQUAL "Debug")
   option(CODE_COVERAGE "Enable coverage reporting" ON)
 endif()
 
-if(CODE_COVERAGE)
-  message(STATUS "Code coverage enabled")
-  if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
-    add_compile_options(--coverage -O0 -g -fprofile-abs-path)
-    add_link_options(--coverage)
-  endif()
-endif()
+set(COVERAGE_FLAGS -g -O0 --coverage)
 
+function(enable_coverage target)
+    if(CODE_COVERAGE)
+        target_compile_options(${target} PRIVATE ${COVERAGE_FLAGS})
+        target_link_options(${target} PRIVATE --coverage)
+    endif()
+endfunction()
 
 include(CTest)
 

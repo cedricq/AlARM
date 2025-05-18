@@ -5,3 +5,5 @@ add_executable (${PROJECT_NAME} AlARM_t.cpp )
 target_link_libraries(${PROJECT_NAME} gtest_main alarm audio_fake)
 add_test(${PROJECT_NAME} ${PROJECT_NAME} --gtest_color=yes)
 
+enable_coverage(${PROJECT_NAME})
+

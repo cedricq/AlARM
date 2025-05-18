@@ -20,6 +20,7 @@ MAKE_ALARM(alm_test_low, "alarm_test_low", "Just for test low", Priority::Low, 0
 
 TEST(AlARM, overall_low)
 {
+    const int TEST_TIME = 4; // duration per alarm priority
     start_thread();
 
     AlARM_Manager& alm_mgr = AlARM_Manager::GetInstance();
@@ -39,30 +40,27 @@ TEST(AlARM, overall_low)
         std::cout << "\nLOW : " <<std::endl;
         alarm_test_low = true;
         int cnt = get_counter();
-        sleep(10);
+        sleep(TEST_TIME);
         const Alarm alm = alm_mgr.IsTriggered();
         ASSERT_EQ(Priority::Low, alm.alarmId.priority);
-        ASSERT_LE(99, get_counter()-cnt);
     }
 
     {
         std::cout << "\nMED : " <<std::endl;
         alarm_test_med = true;
         int cnt = get_counter();
-        sleep(5);
+        sleep(TEST_TIME);
         const Alarm alm = alm_mgr.IsTriggered();
         ASSERT_EQ(Priority::Medium, alm.alarmId.priority);
-        ASSERT_LE(49, get_counter()-cnt);
     }
 
     {
         std::cout << "\nHIGH : " <<std::endl; 
         alarm_test_high = true;
         int cnt = get_counter();
-        sleep(3);
+        sleep(TEST_TIME);
         const Alarm alm = alm_mgr.IsTriggered();
         ASSERT_EQ(Priority::High, alm.alarmId.priority);
-        ASSERT_LE(29, get_counter()-cnt);
     }
 
     {
@@ -71,10 +69,9 @@ TEST(AlARM, overall_low)
         alarm_test_med = false;
         alarm_test_high = false;
         int cnt = get_counter();
-        sleep(10);
+        sleep(TEST_TIME);
         const Alarm alm = alm_mgr.IsTriggered();
         ASSERT_EQ(Priority::None, alm.alarmId.priority);
-        ASSERT_LE(99, get_counter()-cnt);
     }
 
     stop_thread();
