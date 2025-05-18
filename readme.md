@@ -18,7 +18,29 @@ Or you can run directly from project root directory:
 cmake -S . -B build
 cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug -DCODE_COVERAGE=ON
 cmake --build build
+```
 
+# Build & Run application tests
+This application allows playing manually with the alarm system.
+It requires `sudo apt-get install sox` to play the audio beeps on Linux
+
+```
+./build/test/alarm_app
+Press following keys :
+  - 'h' for activating/deactivating high prio alarm 
+  - 'm' for activating/deactivating medium prio alarm 
+  - 'l' for activating/deactivating low prio alarm 
+  - 'q' for quitting 
+Output :
+  - 'X' is equivalent to a 100ms beep window
+  - '.' is equivalent to a 100ms no-beep window
+...................XX...XX...XX.......XX...XX..........XX...XX...XX......
+.XX...XX..........XX...XX...XX.......XX...XX........XXXXX.....XXXXX......
+..............................XXXXX.....XXXXX............................
+........XXXXX.....XXXXXXX...XX...XX.XXXXX...............XXXXXXXXXX.......
+.........................................................................
+...........XXXXXXXXXX....................................................
+..............
 ```
 
 # IEC 60601-1-8

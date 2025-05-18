@@ -13,13 +13,13 @@ void AlARM_Manager::add(Alarm& alm)
 {
     switch (alm.alarmId.priority)
     {
-    case Low:
+    case Priority::Low:
         lows.push_back(std::make_unique<Alarm>(alm)); // GCOVR_EXCL_LINE
         break;
-    case Medium:
+    case Priority::Medium:
         meds.push_back(std::make_unique<Alarm>(alm)); // GCOVR_EXCL_LINE
         break;
-    case High:
+    case Priority::High:
     default:
         highs.push_back(std::make_unique<Alarm>(alm)); // GCOVR_EXCL_LINE
         break;
@@ -59,7 +59,7 @@ Alarm const& AlARM_Manager::IsTriggered(std::vector<std::unique_ptr<Alarm>>& vec
 
     if (alarm_on) return *alarm_on;
 
-    static Alarm NO_ALARM = {{"None", "No alarm", None, 0}, INACTIVE, nullptr, nullptr }; // GCOVR_EXCL_LINE
+    static Alarm NO_ALARM = {{"None", "No alarm", Priority::None, 0}, INACTIVE, nullptr, nullptr }; // GCOVR_EXCL_LINE
     return NO_ALARM;
 }
 
@@ -67,11 +67,17 @@ Alarm const& AlARM_Manager::IsTriggered(std::vector<std::unique_ptr<Alarm>>& vec
 Alarm const& AlARM_Manager::IsTriggered()
 {
     Alarm const& alarm_on_high = IsTriggered(highs);
-    if (alarm_on_high.alarmId.priority != None) return alarm_on_high ;
+    if (alarm_on_high.alarmId.priority != Priority::None) 
+    {
+        return alarm_on_high ;
+    }
 
     Alarm const& alarm_on_med  = IsTriggered(meds);
-    if (alarm_on_med.alarmId.priority != None) return alarm_on_med ;
-
+    if (alarm_on_med.alarmId.priority != Priority::None) 
+    {
+        return alarm_on_med ;
+    }
+    
     return IsTriggered(lows);
 }
 
