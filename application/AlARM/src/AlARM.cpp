@@ -67,11 +67,17 @@ Alarm const& AlARM_Manager::IsTriggered(std::vector<std::unique_ptr<Alarm>>& vec
 Alarm const& AlARM_Manager::IsTriggered()
 {
     Alarm const& alarm_on_high = IsTriggered(highs);
-    if (alarm_on_high.alarmId.priority != Priority::None) return alarm_on_high ;
+    if (alarm_on_high.alarmId.priority != Priority::None) 
+    {
+        return alarm_on_high ;
+    }
 
     Alarm const& alarm_on_med  = IsTriggered(meds);
-    if (alarm_on_med.alarmId.priority != Priority::None) return alarm_on_med ;
-
+    if (alarm_on_med.alarmId.priority != Priority::None) 
+    {
+        return alarm_on_med ;
+    }
+    
     return IsTriggered(lows);
 }
 

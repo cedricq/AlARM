@@ -11,6 +11,7 @@ class AudioI
 public:
     AudioI() {};
     virtual ~AudioI() {};
+    static AudioI& GetInstance();
 
     void play ( AlARM::Priority priority ) 
     {

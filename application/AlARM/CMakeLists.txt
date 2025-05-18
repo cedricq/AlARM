@@ -6,7 +6,7 @@ target_include_directories(${PROJECT_NAME}_lib INTERFACE ${CMAKE_CURRENT_SOURCE_
 
 add_library(${PROJECT_NAME} src/AlARM.cpp)
 target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/inc)
-target_link_libraries(${PROJECT_NAME} PUBLIC ${PROJECT_NAME}_lib audio_fake namestring)
+target_link_libraries(${PROJECT_NAME} PUBLIC ${PROJECT_NAME}_lib namestring)
 
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_14)
 
