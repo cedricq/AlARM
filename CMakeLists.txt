@@ -21,14 +21,11 @@ if(CMAKE_BUILD_TYPE STREQUAL "Debug")
   option(CODE_COVERAGE "Enable coverage reporting" ON)
 endif()
 
-set(COVERAGE_FLAGS -g -O0 --coverage)
-
-function(enable_coverage target)
-    if(CODE_COVERAGE)
-        target_compile_options(${target} PRIVATE ${COVERAGE_FLAGS})
-        target_link_options(${target} PRIVATE --coverage)
-    endif()
-endfunction()
+if(CODE_COVERAGE MATCHES "ON")
+    set(COVERAGE_FLAGS -O0 -g --coverage)
+    add_compile_options(${COVERAGE_FLAGS})
+    add_link_options(--coverage)
+endif()
 
 include(CTest)
 

@@ -9,3 +9,4 @@ add_executable (${PROJECT_NAME} AlARM_app.cpp )
 target_link_libraries(${PROJECT_NAME} alarm alarm_thread)
 
 
+
