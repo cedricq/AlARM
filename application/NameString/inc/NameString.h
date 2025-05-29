@@ -53,8 +53,6 @@ namespace core
         char data_[LENGTH]{};
     };
 
-    bool operator==(NameString const& lhs, NameString const& rhs);
-    bool operator!=(NameString const& lhs, NameString const& rhs);
     bool operator< (NameString const& lhs, NameString const& rhs);
 
     void PrintTo(NameString const& name, std::ostream* os);

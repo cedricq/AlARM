@@ -21,18 +21,18 @@ if(CMAKE_BUILD_TYPE STREQUAL "Debug")
   option(CODE_COVERAGE "Enable coverage reporting" ON)
 endif()
 
-if(CODE_COVERAGE)
-  message(STATUS "Code coverage enabled")
-  if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
-    add_compile_options(--coverage -O0 -g -fprofile-abs-path)
+if(CODE_COVERAGE MATCHES "ON")
+    set(COVERAGE_FLAGS -O0 -g --coverage)
+    add_compile_options(${COVERAGE_FLAGS})
     add_link_options(--coverage)
-  endif()
 endif()
-
 
 include(CTest)
 
-add_subdirectory(src)
+add_subdirectory(application/AlARM)
+add_subdirectory(application/Audio)
+add_subdirectory(application/NameString)
+add_subdirectory(application/AlarmThread)
 add_subdirectory(test)
 
 
