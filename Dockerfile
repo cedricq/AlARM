@@ -22,7 +22,7 @@ WORKDIR /app
 COPY . .
 
 # Create build directory
-RUN mkdir build && cd build && cmake .. && make
+RUN mkdir build && cd build && cmake .. -DCMAKE_BUILD_TYPE=Debug -DCODE_COVERAGE=ON && make
 
 # Define default command
 WORKDIR /app/build
