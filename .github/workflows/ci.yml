@@ -3,38 +3,8 @@ name: ci
 on: [push]
 
 jobs:
-  build:
 
-    runs-on: self-hosted #ubuntu-latest
-    
-    steps:
-    - uses: actions/checkout@v4
-    - name: Install dependencies
-      run: sudo apt-get update && sudo apt-get install -y gcovr
-    - name: Configure CMake
-      run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug -DCODE_COVERAGE=ON
-    - name: build
-      run: cmake --build build
-    - name: run
-      run: cd build/; ctest -V --output-on-failure
-    - name: Generate coverage report
-      run: |
-        cd build; mkdir -p coverage-html;
-        gcovr --root .. \
-          --exclude '.*test.*' --exclude '.*Fake.*' --exclude '_deps' \
-          --html --html-details -o coverage-html/index.html \
-          --print-summary \
-          --branches \
-          --fail-under-line=100 \
-          --fail-under-function=100 \
-          --fail-under-branch=90
-    - name: Upload coverage artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: html-coverage-report
-        path: build/coverage-html
-
-  build_docker:
+  build_in_docker:
 
     runs-on: self-hosted #ubuntu-latest
     
@@ -43,4 +13,9 @@ jobs:
     - name: Build docker image
       run: docker build -t docker_alm .
     - name: Run tests in docker
-      run: docker run --rm docker_alm:latest
+      run: mkdir coverage-html && docker run --rm -v $(pwd)/coverage-html:/app/build/coverage-html docker_alm:latest
+    - name: Upload coverage artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: html-coverage-report
+        path: coverage-html      
