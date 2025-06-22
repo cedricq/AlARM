@@ -1,3 +1,10 @@
+# Build & Run unit tests using Docker
+```
+docker build -t docker_alm .
+docker run --rm docker_alm:latest
+mkdir coverage-html  && docker run --rm -v $(pwd)/coverage-html:/app/build/coverage-html docker_alm:latest
+```
+
 # Build & Run unit tests
 
 Ensure you have gcc or any c++ compiler added into your system path. Then, run the following commands on Windows for example:
