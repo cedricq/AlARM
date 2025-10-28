@@ -6,7 +6,6 @@ mkdir coverage-html  && docker run --rm -v $(pwd)/coverage-html:/app/build/cover
 ```
 
 # Build & Run unit tests
-
 Ensure you have gcc or any c++ compiler added into your system path. Then, run the following commands on Windows for example:
 
 ```
