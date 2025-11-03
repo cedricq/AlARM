@@ -3,13 +3,17 @@
 #include <sstream>
 #include <iomanip>
 
+#ifdef _WIN32
+  #include <windows.h>  // declares Beep
+#endif
+
 using namespace Audio;
 
 static int time_low = 0;
 static int time_med = 0;
 static int time_high = 0; 
 
-void beep(uint time_ms) 
+void beep(unsigned int time_ms) 
 {
     // Frequency: 1000 Hz, Duration: time_ms
 #ifdef _WIN32

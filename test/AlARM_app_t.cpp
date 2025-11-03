@@ -4,6 +4,12 @@
 
 #include <iostream>
 #include <chrono>
+#include <thread>
+
+inline void portable_sleep(unsigned int seconds) 
+{
+    std::this_thread::sleep_for(std::chrono::seconds(seconds));
+}
 
 extern "C" void start_thread();
 extern "C" void stop_thread();
@@ -40,7 +46,7 @@ TEST(AlARM, overall_low)
         std::cout << "\nLOW : " <<std::endl;
         alarm_test_low = true;
         int cnt = get_counter();
-        sleep(TEST_TIME);
+        portable_sleep(TEST_TIME);
         const Alarm alm = alm_mgr.IsTriggered();
         ASSERT_EQ(Priority::Low, alm.alarmId.priority);
     }
@@ -49,7 +55,7 @@ TEST(AlARM, overall_low)
         std::cout << "\nMED : " <<std::endl;
         alarm_test_med = true;
         int cnt = get_counter();
-        sleep(TEST_TIME);
+        portable_sleep(TEST_TIME);
         const Alarm alm = alm_mgr.IsTriggered();
         ASSERT_EQ(Priority::Medium, alm.alarmId.priority);
     }
@@ -58,7 +64,7 @@ TEST(AlARM, overall_low)
         std::cout << "\nHIGH : " <<std::endl; 
         alarm_test_high = true;
         int cnt = get_counter();
-        sleep(TEST_TIME);
+        portable_sleep(TEST_TIME);
         const Alarm alm = alm_mgr.IsTriggered();
         ASSERT_EQ(Priority::High, alm.alarmId.priority);
     }
@@ -69,7 +75,7 @@ TEST(AlARM, overall_low)
         alarm_test_med = false;
         alarm_test_high = false;
         int cnt = get_counter();
-        sleep(TEST_TIME);
+        portable_sleep(TEST_TIME);
         const Alarm alm = alm_mgr.IsTriggered();
         ASSERT_EQ(Priority::None, alm.alarmId.priority);
     }
